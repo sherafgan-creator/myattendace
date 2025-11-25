@@ -10,7 +10,7 @@
 <button onclick="login()">Login</button>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxkPXopTeozeZwiHzRml5XfYmAfl7SPg1NNHJib2SQDvmVXlJzXPxXikvn3N6p6Dsxd1A/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzkxZOJ65bhVEBTDj8QF0N4thgmOwq9I-o2k7xHOihe5P_x2OIVPXpEvFNBLbIravEL/exec";
 
 async function login() {
 
@@ -29,9 +29,9 @@ async function login() {
 
     if (data.success) {
         localStorage.setItem("session", user);
-        window.location.href = "home.html";
+        window.location.href = "index.html";
     } else {
-        alert("Invalid Login");
+        alert("Invalid username or password");
     }
 }
 </script>
