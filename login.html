@@ -5,38 +5,32 @@
   <style>
     body {
       font-family: Arial;
+      background: #f1f1f1;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: #edf1f5;
     }
     .box {
-      width: 300px;
-      padding: 20px;
       background: white;
+      padding: 25px;
       border-radius: 10px;
+      width: 300px;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
-    input {
+    input, button {
       width: 100%;
       padding: 10px;
-      margin-top: 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      margin-top: 10px;
     }
     button {
-      width: 100%;
-      margin-top: 15px;
-      padding: 10px;
-      background: #0d6efd;
+      background: #4285F4;
       color: white;
       border: none;
-      border-radius: 5px;
       cursor: pointer;
     }
     button:hover {
-      background: #0a58ca;
+      background: #0b66c3;
     }
   </style>
 </head>
@@ -49,19 +43,20 @@
   <input id="password" type="password" placeholder="Password">
 
   <button onclick="login()">Login</button>
+
   <p id="msg" style="color:red;"></p>
 </div>
 
 <script>
 function login() {
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
+  let user = document.getElementById("username").value;
+  let pass = document.getElementById("password").value;
 
-  google.script.run.withSuccessHandler(function(result) {
-    if (result === true) {
-      document.body.innerHTML = "<h1>Login Successful</h1>";
+  google.script.run.withSuccessHandler(function(res){
+    if(res){
+      window.location = "home";
     } else {
-      document.getElementById("msg").innerText = "Invalid username or password";
+      document.getElementById("msg").innerHTML = "Invalid Username or Password";
     }
   }).checkLogin(user, pass);
 }
