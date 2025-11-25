@@ -1,27 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <?!= include('css'); ?>
+  <title>Home</title>
 </head>
 <body>
 
-<div class="box">
-  <h2>Welcome!</h2>
-  <p id="welcome"></p>
-
-  <button onclick="logout()">Logout</button>
-</div>
+<h2 id="welcome"></h2>
+<button onclick="logout()">Logout</button>
 
 <script>
-let params = new URLSearchParams(window.location.search);
-let name = params.get("name");
+const user = JSON.parse(localStorage.getItem("user"));
+if (!user) {
+  window.location.href = "login.html";
+}
 
-document.getElementById("welcome").innerText = "Hello, " + name;
+document.getElementById("welcome").innerText = `Welcome, ${user.username} (${user.role})`;
 
 function logout() {
-  google.script.run.withSuccessHandler(function(page) {
-    document.open(); document.write(page); document.close();
-  }).include('login');
+  localStorage.removeItem("user");
+  window.location.href = "login.html";
 }
 </script>
 
