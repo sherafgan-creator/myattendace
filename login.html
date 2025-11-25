@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
 <body>
 
 <h2>Login</h2>
@@ -8,7 +12,10 @@
 <input id="password" type="password" placeholder="Password"><br><br>
 
 <button onclick="login()">Login</button>
+
 <script>
+
+// ❗❗ यहां अपना EXEC URL डालना है (केवल 1 जगह)
 const API_URL = "https://script.google.com/macros/s/AKfycbzkxZOJ65bhVEBTDj8QF0N4thgmOwq9I-o2k7xHOihe5P_x2OIVPXpEvFNBLbIravEL/exec";
 
 async function login() {
@@ -19,7 +26,7 @@ async function login() {
     let response = await fetch(API_URL, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"   // सबसे जरूरी लाइन
+            "Content-Type": "application/json"   // बहुत जरूरी
         },
         body: JSON.stringify({
             username: user,
@@ -30,12 +37,15 @@ async function login() {
     let data = await response.json();
 
     if (data.success === true) {
+        // Session save
         localStorage.setItem("session", user);
-        window.location.href = "index.html";
+        window.location.href = "index.html";   // Home page
     } else {
         alert("Invalid username or password");
     }
 }
 </script>
+
 </body>
 </html>
+
