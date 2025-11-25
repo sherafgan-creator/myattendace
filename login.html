@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>Login Page</title>
 </head>
 <body>
@@ -8,15 +9,15 @@
   <h2>Login</h2>
 
   <form id="loginForm">
-    <input type="text" id="username" placeholder="Username" required><br><br>
-    <input type="password" id="password" placeholder="Password" required><br><br>
+    <input type="text" id="username" placeholder="Enter Username" required><br><br>
+    <input type="password" id="password" placeholder="Enter Password" required><br><br>
     <button type="submit">Login</button>
   </form>
 
-  <p id="msg"></p>
+  <p id="msg" style="color:red;"></p>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzxTYxFt9iGUemC_zeOYSNIr-30yiyuCWsPBLwGq-xQboKMe0l1ws7O-zUsWEH7UK88/exec"; // paste here
+const API_URL = "YOUR_WEB_APP_URL_HERE"; // <-- Paste Apps Script Web App URL
 
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -24,25 +25,26 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({ username, password }),
-    headers: { "Content-Type": "application/json" }
-  });
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    });
 
-  const result = await response.json();
+    const result = await response.json();
 
-  if (result.success) {
-    document.getElementById("msg").innerText = "Login Successful! Redirecting...";
+    if (result.success) {
+      // Save session
+      localStorage.setItem("user", JSON.stringify(result.user));
 
-    // Session can be created using localStorage
-    localStorage.setItem("user", JSON.stringify(result.user));
-
-    // redirect
-    window.location.href = "home.html";
-
-  } else {
-    document.getElementById("msg").innerText = "Invalid Credentials";
+      // Redirect
+      window.location.href = "home.html";
+    } else {
+      document.getElementById("msg").innerText = "Invalid Username or Password";
+    }
+  } catch (error) {
+    document.getElementById("msg").innerText = "Network Error";
   }
 });
 </script>
