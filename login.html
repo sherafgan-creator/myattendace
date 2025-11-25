@@ -13,6 +13,7 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbxkPXopTeozeZwiHzRml5XfYmAfl7SPg1NNHJib2SQDvmVXlJzXPxXikvn3N6p6Dsxd1A/exec";
 
 async function login() {
+
     let user = document.getElementById("username").value;
     let pass = document.getElementById("password").value;
 
@@ -30,7 +31,7 @@ async function login() {
         localStorage.setItem("session", user);
         window.location.href = "home.html";
     } else {
-        alert("Invalid username or password");
+        alert("Invalid Login");
     }
 }
 </script>
