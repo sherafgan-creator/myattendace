@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Home Page</title>
-</head>
 <body>
 
-<h2 id="welcome"></h2>
+<script>
+// session check
+if (!localStorage.getItem("session")) {
+    window.location.href = "login.html";
+}
+</script>
+
+<h2>Welcome!</h2>
+
+<p>You are logged in.</p>
+
 <button onclick="logout()">Logout</button>
 
 <script>
-const user = JSON.parse(localStorage.getItem("user"));
-
-// If no session → redirect to login
-if (!user) {
-  window.location.href = "login.html";
-}
-
-// Display welcome message
-document.getElementById("welcome").innerText =
-  `Welcome, ${user.username} (Role: ${user.role})`;
-
 function logout() {
-  localStorage.removeItem("user");
-  window.location.href = "login.html";
+    localStorage.removeItem("session");
+    window.location.href = "login.html";
 }
 </script>
 
