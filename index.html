@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+</head>
 <body>
 
 <script>
-// User login check
+// ❗ Session check
 if (!localStorage.getItem("session")) {
     window.location.href = "login.html";
 }
 </script>
 
-<h2>Welcome to Home Page</h2>
+<h2>Welcome</h2>
 
 <p>You are logged in as: <span id="user"></span></p>
 
