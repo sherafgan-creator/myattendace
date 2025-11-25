@@ -17,7 +17,7 @@ async function login() {
     let user = document.getElementById("username").value;
     let pass = document.getElementById("password").value;
 
-    let response = await fetch(https://script.google.com/macros/s/AKfycbzkxZOJ65bhVEBTDj8QF0N4thgmOwq9I-o2k7xHOihe5P_x2OIVPXpEvFNBLbIravEL/exec, {
+    let response = await fetch(APP_URL, {
         method: "POST",
         body: JSON.stringify({
             username: user,
