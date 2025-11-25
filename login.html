@@ -8,7 +8,6 @@
 <input id="password" type="password" placeholder="Password"><br><br>
 
 <button onclick="login()">Login</button>
-
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbzkxZOJ65bhVEBTDj8QF0N4thgmOwq9I-o2k7xHOihe5P_x2OIVPXpEvFNBLbIravEL/exec";
 
@@ -17,8 +16,11 @@ async function login() {
     let user = document.getElementById("username").value;
     let pass = document.getElementById("password").value;
 
-    let response = await fetch(APP_URL, {
+    let response = await fetch(API_URL, {
         method: "POST",
+        headers: {
+            "Content-Type": "application/json"   // सबसे जरूरी लाइन
+        },
         body: JSON.stringify({
             username: user,
             password: pass
@@ -27,7 +29,7 @@ async function login() {
 
     let data = await response.json();
 
-    if (data.success) {
+    if (data.success === true) {
         localStorage.setItem("session", user);
         window.location.href = "index.html";
     } else {
@@ -35,6 +37,5 @@ async function login() {
     }
 }
 </script>
-
 </body>
 </html>
