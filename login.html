@@ -1,65 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base target="_top">
-  <style>
-    body {
-      font-family: Arial;
-      background: #f1f1f1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .box {
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      width: 300px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-    }
-    button {
-      background: #4285F4;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0b66c3;
-    }
-  </style>
+  <title>Login Page</title>
 </head>
 <body>
 
-<div class="box">
-  <h3>Login</h3>
+  <h2>Login</h2>
 
-  <input id="username" placeholder="Username">
-  <input id="password" type="password" placeholder="Password">
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Username" required><br><br>
+    <input type="password" id="password" placeholder="Password" required><br><br>
+    <button type="submit">Login</button>
+  </form>
 
-  <button onclick="login()">Login</button>
-
-  <p id="msg" style="color:red;"></p>
-</div>
+  <p id="msg"></p>
 
 <script>
-function login() {
-  let user = document.getElementById("username").value;
-  let pass = document.getElementById("password").value;
+const API_URL = "https://script.google.com/macros/s/AKfycbzxTYxFt9iGUemC_zeOYSNIr-30yiyuCWsPBLwGq-xQboKMe0l1ws7O-zUsWEH7UK88/exec"; // paste here
 
-  google.script.run.withSuccessHandler(function(res){
-    if(res){
-      window.location = "home";
-    } else {
-      document.getElementById("msg").innerHTML = "Invalid Username or Password";
-    }
-  }).checkLogin(user, pass);
-}
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  const response = await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({ username, password }),
+    headers: { "Content-Type": "application/json" }
+  });
+
+  const result = await response.json();
+
+  if (result.success) {
+    document.getElementById("msg").innerText = "Login Successful! Redirecting...";
+
+    // Session can be created using localStorage
+    localStorage.setItem("user", JSON.stringify(result.user));
+
+    // redirect
+    window.location.href = "home.html";
+
+  } else {
+    document.getElementById("msg").innerText = "Invalid Credentials";
+  }
+});
 </script>
 
 </body>
