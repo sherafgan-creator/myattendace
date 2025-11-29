@@ -10,22 +10,28 @@
   <p id="msg"></p>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzz9d6G8QnG0EbxFI17-1B6TY_ftPlBUPQS18rHs-pfJyi7fImQGYzRe4kponj0g8JoPg/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbx7mZJMsJe0nYYoEck0pzbKEF6FHAHY7LMzutE_khO8Hpqol6tdWnifBs6F6n-6LzjHmQ/exec";
 
 async function login() {
   const user = document.getElementById("user").value.trim();
   const pass = document.getElementById("pass").value.trim();
 
-  const res = await fetch(API_URL + "?action=login&user="+user+"&pass="+pass);
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user, pass })
+  });
+
   const data = await res.json();
 
   if (data.success) {
     sessionStorage.setItem("name", data.name);
-    window.location.href = "home.html";
+    window.location.href = "/home";
   } else {
-    document.getElementById("msg").innerText = "Invalid credentials ❌";
+    document.getElementById("msg").innerText = "Login Failed ❌ Try again 😕";
   }
 }
+
 </script>
 </body>
 </html>
