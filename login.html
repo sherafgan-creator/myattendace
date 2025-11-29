@@ -1,51 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Login</title>
+  <title>Login</title>
+  <?!= include("style"); ?>
+  <?!= include("animations"); ?>
 </head>
-<body>
+<body class="light">
 
-<h2>Login</h2>
+<div class="card">
+  <h3 style="text-align:center;font-size:21px;font-weight:600;margin-bottom:18px;">Secure Login 🔐</h3>
 
-<input id="username" placeholder="Username"><br><br>
-<input id="password" type="password" placeholder="Password"><br><br>
+  <input type="text" id="user" placeholder="Enter Email or Username ✉️">
+  <input type="password" id="pass" placeholder="Enter Password 🧩">
 
-<button onclick="login()">Login</button>
+  <div id="msg" class="error"></div>
+
+  <button onclick="login()">Login</button>
+</div>
 
 <script>
+function login(){
+  const u = document.getElementById("user").value.trim();
+  const p = document.getElementById("pass").value.trim();
 
-// ❗❗ यहां अपना EXEC URL डालना है (केवल 1 जगह)
-const API_URL = "https://script.google.com/macros/s/AKfycbzOVzs8aNycDvUrnACdT9HlwSd9oYf9r2cdiRCJzwXEh6Dm-19YiL9t24h_NPdY4FD4/exec";
-
-async function login() {
-
-    let user = document.getElementById("username").value;
-    let pass = document.getElementById("password").value;
-
-    let response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"   // बहुत जरूरी
-        },
-        body: JSON.stringify({
-            username: user,
-            password: pass
-        })
-    });
-
-    let data = await response.json();
-
-    if (data.success === true) {
-        // Session save
-        localStorage.setItem("session", user);
-        window.location.href = "index.html";   // Home page
+  google.script.run.withSuccessHandler(res=>{
+    if(res.success){
+      sessionStorage.setItem("loggedInUser", JSON.stringify({name: res.name, email: res.email}));
+      window.open("?page=home","_self");
     } else {
-        alert("Invalid username or password");
+      document.getElementById("msg").innerText = "Access Denied ❌ Invalid Credentials";
     }
+  }).checkUser(u, p);
 }
+
+document.addEventListener("keydown", e => {
+  if(e.ctrlKey && e.shiftKey && e.key === "L"){
+    document.body.classList.toggle("dark"); 
+  }
+});
 </script>
 
 </body>
 </html>
-
