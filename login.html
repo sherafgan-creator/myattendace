@@ -1,44 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login</title>
-  <?!= include("style"); ?>
-  <?!= include("animations"); ?>
+ <title>Login</title>
 </head>
-<body class="light">
-
-<div class="card">
-  <h3 style="text-align:center;font-size:21px;font-weight:600;margin-bottom:18px;">Secure Login 🔐</h3>
-
-  <input type="text" id="user" placeholder="Enter Email or Username ✉️">
-  <input type="password" id="pass" placeholder="Enter Password 🧩">
-
-  <div id="msg" class="error"></div>
-
+<body>
+  <input type="text" id="user" placeholder="Email or Username">
+  <input type="password" id="pass" placeholder="Password">
   <button onclick="login()">Login</button>
-</div>
+  <p id="msg"></p>
 
 <script>
-function login(){
-  const u = document.getElementById("user").value.trim();
-  const p = document.getElementById("pass").value.trim();
+const API_URL = "PASTE_YOUR_APPS_SCRIPT_LINK_HERE";
 
-  google.script.run.withSuccessHandler(res=>{
-    if(res.success){
-      sessionStorage.setItem("loggedInUser", JSON.stringify({name: res.name, email: res.email}));
-      window.open("?page=home","_self");
-    } else {
-      document.getElementById("msg").innerText = "Access Denied ❌ Invalid Credentials";
-    }
-  }).checkUser(u, p);
-}
+async function login() {
+  const user = document.getElementById("user").value.trim();
+  const pass = document.getElementById("pass").value.trim();
 
-document.addEventListener("keydown", e => {
-  if(e.ctrlKey && e.shiftKey && e.key === "L"){
-    document.body.classList.toggle("dark"); 
+  const res = await fetch(API_URL + "?action=login&user="+user+"&pass="+pass);
+  const data = await res.json();
+
+  if (data.success) {
+    sessionStorage.setItem("name", data.name);
+    window.location.href = "home.html";
+  } else {
+    document.getElementById("msg").innerText = "Invalid credentials ❌";
   }
-});
+}
 </script>
-
 </body>
 </html>
