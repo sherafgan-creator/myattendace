@@ -1,0 +1,7 @@
+function doGet(e) {
+  if(e.parameter.action == "login") {
+    const result = checkLoginAPI(e.parameter.user, e.parameter.pass);
+    return ContentService.createTextOutput(JSON.stringify(result))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
